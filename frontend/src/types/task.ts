@@ -12,4 +12,12 @@ export interface TaskPayload {
   priority: number;
   category?: string;
   due_date?: string | null;
+  done?: boolean;
 }
+
+export interface GetTasksParams {
+  search?: string;
+  status?: "done" | "undone";
+  sort?: "asc" | "desc";
+}
+

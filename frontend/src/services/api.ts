@@ -1,24 +1,12 @@
-const API_URL = 'http://localhost:8080';
+import { Task, TaskPayload, GetTasksParams } from "../types/task";
 
-export interface GetTasksParams {
-  search?: string;
-  status?: "done" | "undone";
-  sort?: "asc" | "desc";
-}
-
-export interface TaskPayload {
-  title: string;
-  priority: number;
-  category?: string; 
-  due_date?: string | null;
-  done?: boolean;
-}
+const API_URL = 'https://todolist-for-automaze.onrender.com';
 
 export async function getTasks(params: GetTasksParams = {}) {
   const query = new URLSearchParams(params as Record<string,string>);
   const res = await fetch(`${API_URL}/tasks?${query.toString()}`);
   if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-  return res.json();
+  return res.json() as Promise<Task[]>;
 }
 
 export async function addTask(task: TaskPayload) {
@@ -28,7 +16,7 @@ export async function addTask(task: TaskPayload) {
     body: JSON.stringify(task),
   });
   if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-  return res.json();
+  return res.json() as Promise<Task>;
 }
 
 export async function updateTask(id: number, task: Partial<TaskPayload>) {
@@ -38,7 +26,7 @@ export async function updateTask(id: number, task: Partial<TaskPayload>) {
     body: JSON.stringify(task),
   });
   if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-  return res.json();
+  return res.json() as Promise<Task>;
 }
 
 export async function deleteTask(id: number) {
@@ -54,5 +42,6 @@ export async function reorderTasks(ids: number[]) {
     body: JSON.stringify({ ids }),
   });
   if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-  return res.json();
+  return res.json() as Promise<Task[]>;
 }
+
