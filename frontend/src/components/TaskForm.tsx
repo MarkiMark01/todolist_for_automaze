@@ -36,7 +36,14 @@ export const TaskForm: React.FC<Props> = ({ onAdd }) => {
         min={1}
         max={10}
         value={priority}
-        onChange={(e) => setPriority(Number(e.target.value))}
+        onChange={(e) => {
+          let value = Number(e.target.value);
+
+          if (value < 1) value = 1;
+          if (value > 10) value = 10;
+
+          setPriority(value);
+        }}
         w="55px"
       />
 
